@@ -3,34 +3,40 @@ import TodoCreate from "./components/icons/TodoCreate"
 import TodoList from "./components/icons/TodoList"
 import TodoComputed from "./components/icons/TodoComputed"
 import TodoFilter from "./components/icons/TodoFilter"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
-const initialStateTodos = [
-  {
-    id: 1, 
-    title: "Go to the gym",
-    completed: true
-  },
-  {
-    id: 2, 
-    title: "Complete React course",
-    completed: false
-  },
-  {
-    id: 3, 
-    title: "Wake up",
-    completed: true
-  },
-  {
-    id: 4, 
-    title: "Complete todo app",
-    completed: false
-  },
-]
+// const initialStateTodos = [
+//   {
+//     id: 1, 
+//     title: "Recordarle a todos por 30000va vez que me gusta Travis",
+//     completed: true
+//   },
+//   {
+//     id: 2, 
+//     title: "Decir Isra, Isra, Isra",
+//     completed: false
+//   },
+//   {
+//     id: 3, 
+//     title: "Molestar a la banana",
+//     completed: true
+//   },
+//   {
+//     id: 4, 
+//     title: "Jugar fortnite con la peor skin de todas",
+//     completed: false
+//   },
+// ]
+
+const initialStateTodos = JSON.parse(localStorage.getItem("todos")) || []
 
 const App  = () =>{
 
 const [todos, setTodos] = useState(initialStateTodos)
+
+useEffect(() => {
+  localStorage.setItem("todos", JSON.stringify(todos))
+}, [todos])
 
 const createTodo = (title) => {
   const newTodo = {
@@ -74,15 +80,13 @@ const filteredTodos = () => {
 }
 
 
-
-
-
   return(
-    <div className="bg-[url('./assets/images/bg-mobile-light.jpg')] bg-no-repeat bg-contain bg-gray-300 min-h-screen">
+    <div className="bg-[url('./assets/images/bg-mobile-light.jpg')] bg-no-repeat bg-contain bg-gray-300  dark:bg-gray-900 min-h-screen
+    dark:bg-[url('./assets/images/bg-mobile-dark.jpg')] md:bg-[url('./assets/images/bg-desktop-light.jpg')] md:dark:bg-[url('./assets/images/bg-desktop-dark.jpg')]">
 
       <Header />
 
-      <main className="container mx-auto px-4 mt-8">
+      <main className="container mx-auto px-4 mt-8  md:max-w-xl">
 
         <TodoCreate createTodo={createTodo}/>
 
@@ -94,7 +98,7 @@ const filteredTodos = () => {
         
       </main>
 
-      <footer className="text-center mt-8">Drag and drop to reorder list</footer>
+      <footer className="text-center mt-8 dark:text-gray-400">Drag and drop to reorder list</footer>
       
     </div>
   )
